@@ -1,7 +1,8 @@
-const createMessage = (name, message) => ({
+const createMessage = (name, message, isAdmin = false) => ({
   name,
   message,
-  date: new Date().getTime()
+  date: new Date().getTime(),
+  isAdmin
 })
 
 module.exports = {

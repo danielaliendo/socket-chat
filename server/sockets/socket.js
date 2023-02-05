@@ -22,18 +22,21 @@ io.on('connection', (client) => {
     const usersList = users.addUser(client.id, user.name, user.room);
 
     client.broadcast.to(user.room).emit('usersConnected', users.getRoomUsers(user.room))
+    client.broadcast.to(user.room).emit('createMessage', createMessage('Admin', `${user?.name}  has join`, true));
 
     callback(usersList)
   });
 
-  client.on('sendMessage', (data) => {
+  client.on('createMessage', (data, callback) => {
 
     const user = users.getUser(client.id);
 
     if (user) {
       const message = createMessage(user.name, data.message);
       // Send a message to everybody in the room
-      client.broadcast.to(user.room).emit('createMessage', message)
+      client.broadcast.to(user.room).emit('createMessage', message);
+
+      callback(message);
     }
 
   })
@@ -41,9 +44,11 @@ io.on('connection', (client) => {
   client.on('disconnect', () => {
     const deletedUser = users.deleteUser(client.id)
 
-    client.broadcast.to(deletedUser.room).emit('createMessage', createMessage('Admin', `${deletedUser?.name}  has left the room`));
+    if (deletedUser) {
+      client.broadcast.to(deletedUser.room).emit('createMessage', createMessage('Admin', `${deletedUser?.name}  has left the room`, true));
 
-    client.broadcast.to(deletedUser.room).emit('usersConnected', users.getRoomUsers(deletedUser.room))
+      client.broadcast.to(deletedUser.room).emit('usersConnected', users.getRoomUsers(deletedUser.room))
+    }
 
   });
 
