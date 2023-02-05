@@ -8,7 +8,7 @@ class Users {
    * Add new user to user list
    * @param {String} id
    * @param {String} name
-   * @returns {[]}
+   * @returns {Array}
    */
   addUser(id, name) {
     const user = {id, name}
@@ -28,6 +28,14 @@ class Users {
 
     return user ? user : null
 
+  }
+
+  /** getUsers()
+   * Get users list
+   * @returns {Array}
+   */
+  getUsers() {
+    return this.users
   }
 
 }
