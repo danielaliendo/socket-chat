@@ -10,10 +10,10 @@ class Users {
    * @param {String} name
    * @returns {Array}
    */
-  addUser(id, name) {
-    const user = {id, name}
+  addUser(id, name, room) {
+    const user = {id, name, room}
     this.users.push(user)
-    return this.users
+    return this.getRoomUsers(room)
   }
 
   /** getUser()
@@ -34,6 +34,10 @@ class Users {
     return this.users
   }
 
+  getRoomUsers(room) {
+    return this.users.filter(user => user.room === room)
+  }
+
   /** deleteUser()
    * Delete user by id
    * @param id
@@ -47,6 +51,4 @@ class Users {
 
 }
 
-module.exports = {
-  Users
-}
+module.exports = Users
