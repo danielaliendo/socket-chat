@@ -13,7 +13,6 @@ class Users {
   addUser(id, name) {
     const user = {id, name}
     this.users.push(user)
-
     return this.users
   }
 
@@ -23,11 +22,8 @@ class Users {
    * @returns { Object | null}
    */
   getUser(id) {
-
     const user = this.users.find(user => user.id === id);
-
     return user ? user : null
-
   }
 
   /** getUsers()
@@ -36,6 +32,17 @@ class Users {
    */
   getUsers() {
     return this.users
+  }
+
+  /** deleteUser()
+   * Delete user by id
+   * @param id
+   * @returns {Object|null}
+   */
+  deleteUser(id) {
+    const deletedUser = this.getUser(id);
+    this.users = this.users.filter(user => user.id !== id)
+    return deletedUser
   }
 
 }
